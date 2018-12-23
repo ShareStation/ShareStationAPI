@@ -18,4 +18,11 @@ routes.post('/user', [
     UserController.insertNewUser(req, res);
 });
 
+routes.get('/user', UserController.getAllUsers);
+routes.get('/user/:id', UserController.getUserById);
+
+routes.delete('/user/:id', UserController.deleteUser);
+
+routes.patch('/user/:id', UserController.updateUserById);
+
 module.exports = routes;
