@@ -21,4 +21,6 @@ routes.post('/user', [
 routes.get('/user', UserController.getAllUsers);
 routes.get('/user/:id', UserController.getUserById);
 
+routes.delete('/user/:id', UserController.deleteUser);
+
 module.exports = routes;

@@ -43,7 +43,7 @@ module.exports = {
             return res.json({
                 data: [{ users }]
             });
-        });
+        }).sort('-createdAt');
     },
 
     async getUserById(req, res) {
@@ -63,7 +63,24 @@ module.exports = {
 
             }
 
-            return res.json({ data: [user] });
+            return res.json({ data: [{ user }] });
         });
+    },
+
+    async deleteUser(req, res) {
+        const userIdToDelete = req.params.id;
+        User.findByIdAndUpdate(userIdToDelete,
+            { active: false },
+            { new: true },
+            (error, updatedUser, a) => {
+                if (error !== null) {
+                    return res
+                        .status(404)
+                        .json({ message: "User not found" });
+                }
+
+                return res.json({ data: [{ updatedUser }] });
+            }
+        );
     }
 };
