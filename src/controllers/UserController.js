@@ -25,7 +25,7 @@ module.exports = {
 
             const insertedUser = await User.create(userThatWillBeInserted);
 
-            req.io.emit('newUserInserted', insertedUser);
+            req.io.emit('newUseHasBeenInserted', insertedUser);
 
             return res.json(insertedUser);
         });
@@ -72,14 +72,38 @@ module.exports = {
         User.findByIdAndUpdate(userIdToDelete,
             { active: false },
             { new: true },
-            (error, updatedUser, a) => {
+            (error, updatedUser) => {
                 if (error !== null) {
                     return res
                         .status(404)
                         .json({ message: "User not found" });
                 }
 
+                req.io.emit('userHasBeenDeleted', updatedUser);
+
                 return res.json({ data: [{ updatedUser }] });
+            }
+        );
+    },
+
+    async updateUserById(req, res) {
+        const userIdToUpdate = req.params.id;
+        const dataToUpdateUser = req.body;
+        User.findByIdAndUpdate(
+            userIdToUpdate,
+            dataToUpdateUser,
+            { new: true },
+            (error, updatedUser) => {
+                if (error !== null) {
+                    return res
+                        .status(404)
+                        .json({ error: 'User not found' });
+                }
+
+                req.io.emit('userHasBeenUpdated', updatedUser);
+
+                return res
+                    .json({ updatedUser });
             }
         );
     }
