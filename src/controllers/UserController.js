@@ -24,10 +24,46 @@ module.exports = {
             userThatWillBeInserted.password = hash;
 
             const insertedUser = await User.create(userThatWillBeInserted);
-            
+
             req.io.emit('newUserInserted', insertedUser);
-            
+
             return res.json(insertedUser);
+        });
+    },
+
+    async getAllUsers(req, res) {
+        User.find({}, (error, users) => {
+            if (error !== null) {
+                res
+                    .status(500)
+                    .json({ error });
+                return;
+            }
+
+            return res.json({
+                data: [{ users }]
+            });
+        });
+    },
+
+    async getUserById(req, res) {
+        const userIdToFetch = req.params.id;
+        User.findById(userIdToFetch, (error, user) => {
+            if (user === undefined) {
+                return res
+                    .status(404)
+                    .json({
+                        message: "User not found"
+                    });
+            }
+            else if (error !== null) {
+                return res
+                    .status(500)
+                    .json({ error });
+
+            }
+
+            return res.json({ data: [user] });
         });
     }
 };
