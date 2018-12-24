@@ -1,8 +1,11 @@
 const express = require('express');
 const routes = express.Router();
+const app = express()
 const UserController = require('./controllers/UserController');
+const questionController = require('./controllers/QuestionController');
 const { check, validationResult } = require('express-validator/check');
 
+//-----------------------------------User routes-------------------------------------
 
 routes.post('/user', [
     check('firstName').not().isEmpty(),
@@ -24,5 +27,12 @@ routes.get('/user/:id', UserController.getUserById);
 routes.delete('/user/:id', UserController.deleteUser);
 
 routes.patch('/user/:id', UserController.updateUserById);
+
+//-----------------------------------Question routes-------------------------------------
+
+routes.get("/question", questionController.select)
+      .post("/question", questionController.insert)
+      .put("/question", questionController.update)
+      .delete("/question", questionController.delete)
 
 module.exports = routes;

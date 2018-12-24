@@ -6,6 +6,7 @@ const io = require('socket.io')(server);
 const cors = require('cors');
 const routes = require('./routes');
 
+// mongoose.connect('mongodb://localhost:27017/db_sharestation', {
 mongoose.connect('mongodb://client:32jdggv461098ppMmsss771552d@ds123728.mlab.com:23728/sharestationdb', {
     useNewUrlParser: true
 });
