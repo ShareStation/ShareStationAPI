@@ -1,9 +1,12 @@
 const express = require('express');
 const routes = express.Router();
 const app = express()
+const bodyParser = require("body-parser")
 const UserController = require('./controllers/UserController');
 const questionController = require('./controllers/QuestionController');
 const { check, validationResult } = require('express-validator/check');
+
+app.use(bodyParser.urlencoded({extended:true}))
 
 //-----------------------------------User routes-------------------------------------
 
@@ -31,6 +34,7 @@ routes.patch('/user/:id', UserController.updateUserById);
 //-----------------------------------Question routes-------------------------------------
 
 routes.get("/question", questionController.select)
+      .get("/question/:questionId", questionController.selectById)
       .post("/question", questionController.insert)
       .put("/question", questionController.update)
       .delete("/question", questionController.delete)
