@@ -1,35 +1,35 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
-const cryptPassword = (password, callback) => {
-    const saltRounds = 10;
-    bcrypt.genSalt(saltRounds, (error, salt) => {
+// const cryptPassword = (password, callback) => {
+//     const saltRounds = 10;
+//     bcrypt.genSalt(saltRounds, (error, salt) => {
 
-        if (error) return;
+//         if (error) return;
 
-        bcrypt.hash(
-            password,
-            salt,
-            (error, hash) => callback(error, hash)
-        );
-    });
-}
+//         bcrypt.hash(
+//             password,
+//             salt,
+//             (error, hash) => callback(error, hash)
+//         );
+//     });
+// }
 
 module.exports = {
-    async insertNewUser(req, res) {
-        const userThatWillBeInserted = req.body;
-        const userPassword = userThatWillBeInserted.password;
+    // async insertNewUser(req, res) {
+    //     const userThatWillBeInserted = req.body;
+    //     const userPassword = userThatWillBeInserted.password;
 
-        cryptPassword(userPassword, async (error, hash) => {
-            userThatWillBeInserted.password = hash;
+    //     cryptPassword(userPassword, async (error, hash) => {
+    //         userThatWillBeInserted.password = hash;
 
-            const insertedUser = await User.create(userThatWillBeInserted);
+    //         const insertedUser = await User.create(userThatWillBeInserted);
 
-            req.io.emit('newUseHasBeenInserted', insertedUser);
+    //         req.io.emit('newUseHasBeenInserted', insertedUser);
 
-            return res.json(insertedUser);
-        });
-    },
+    //         return res.json(insertedUser);
+    //     });
+    // },
 
     async getAllUsers(req, res) {
         User.find({}, (error, users) => {
