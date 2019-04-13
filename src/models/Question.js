@@ -5,7 +5,7 @@ const questionSchema = new Schema({
     
     title: String,
     body: String,
-    userId: Number,
+    user: { type: Schema.Types.ObjectId, ref: "UserSchema" },
     category: {
                 type:String, 
                 enum:["Mecânica",
@@ -17,6 +17,7 @@ const questionSchema = new Schema({
                       "Inglês",
                       "Outros"],
                 default:"Outros"},
+    answers: [{type: Schema.Types.ObjectId, ref: "answerSchema"}],
     access: {type:Number, default:0},
     createdAt: {type:Date, default:Date.now},
     updateAt: {type:Date, default:Date.now},
