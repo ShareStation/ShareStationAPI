@@ -4,6 +4,7 @@ const app = express()
 const bodyParser = require("body-parser")
 const UserController = require('./controllers/UserController');
 const questionController = require('./controllers/QuestionController');
+const answerController = require('./controllers/AnswerController');
 const { check, validationResult } = require('express-validator/check');
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -38,5 +39,14 @@ routes.get("/question", questionController.select)
       .post("/question", questionController.insert)
       .put("/question", questionController.update)
       .delete("/question", questionController.delete)
+
+//-----------------------------------Answer routes-------------------------------------
+
+routes.get("/answer", answerController.select)
+      .get("/answer/:answerId", answerController.selectById)
+      .post("/answer", answerController.insert)
+      .put("/answer", answerController.update)
+      .delete("/answer", answerController.delete)
+
 
 module.exports = routes;
